@@ -30,8 +30,7 @@ public class HomeController {
 	public String getAllUser(Model model) {
 		model.addAttribute("users", userRepo.findAll());
 		return "userlist";
-	}
-	
+	}	
 	@GetMapping("/users/{id}")
 	public String getUserById(@PathVariable(value = "id") Long userId,  
 	Model model) throws ResourceNotFoundException {
@@ -44,16 +43,16 @@ public class HomeController {
 		return "user";
 	}
 	
-	@GetMapping("/welcome")
+	@GetMapping("/")
 	public String loadWelcome(Model model) {
 		return "welcome";
 	}
 	
-	@GetMapping("/register")
+	@GetMapping("/users/new")
 	public String loadRegForm(Model model) {		
 		return "regform";
 	}	
-	@PostMapping("/create")
+	@PostMapping("/users")
 	public String createUser(@Valid @RequestBody User user, Model model) {
 		userRepo.save(user);
 		model.addAttribute("users", userRepo.findAll());

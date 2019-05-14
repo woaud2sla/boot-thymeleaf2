@@ -21,14 +21,14 @@ function fire_ajax_submit() {
     $.ajax({
         type: "POST",
         contentType: "application/json",
-        url: "/create",
+        url: "/users",
         data: json,
         dataType: 'text', // json -> text
         cache: false,
         timeout: 600000,
         success: function (data) {
         	console.log("SUCCESS : ", data);
-        	window.location.href = "/welcome";
+        	window.location.href = "/users";
         },
         error: function (e) {
             console.log("ERROR : ", e);
