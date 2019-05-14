@@ -48,7 +48,7 @@ public class HomeController {
 		return "welcome";
 	}
 	
-	@GetMapping("/users/new")
+	@GetMapping("/regform")
 	public String loadRegForm(Model model) {		
 		return "regform";
 	}	
