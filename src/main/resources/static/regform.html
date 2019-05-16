@@ -3,11 +3,20 @@
 	  xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>등록 폼</title>
-    <th:block th:include="fragments/header"></th:block>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" 
+    href="/webjars/bootstrap/4.3.1/dist/css/bootstrap.min.css">
+    <script type="text/javascript" src="/webjars/jquery/3.4.1/dist/jquery.min.js"></script>
     <script type="text/javascript" src="/js/main.js"></script>
 </head>
 <body>
-<th:block th:include="fragments/nav"></th:block>
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="">egyou.github.io</a>
+        </div>
+    </div>
+</nav>
 <div class="container" style="min-height: 500px">
 
     <div class="starter-template">

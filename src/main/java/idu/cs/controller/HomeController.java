@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import idu.cs.domain.User;
@@ -57,7 +58,19 @@ public class HomeController {
 		model.addAttribute("users", userRepo.findAll());
 		return "redirect:/users";
 	}
-	@DeleteMapping("/users/{id}")
+	@PutMapping("/users/{id}") 
+	//@RequestMapping(value=""/users/{id}" method=RequestMethod.UPDATE)
+	public String updateUserById(@PathVariable(value = "id") Long userId,  
+	Model model) throws ResourceNotFoundException {
+		User user = userRepo.findById(userId)
+				.orElseThrow(() -> 
+				new ResourceNotFoundException("not found " + userId ));
+		userRepo.save(user); // 객체 삭제 -> jpa : record 삭제로 적용
+		model.addAttribute("name", user.getName());
+		return "disjoin";
+	}
+	@DeleteMapping("/users/{id}") 
+	//@RequestMapping(value=""/users/{id}" method=RequestMethod.DELETE)
 	public String deleteUserById(@PathVariable(value = "id") Long userId,  
 	Model model) throws ResourceNotFoundException {
 		User user = userRepo.findById(userId)
@@ -65,6 +78,10 @@ public class HomeController {
 				new ResourceNotFoundException("not found " + userId ));
 		userRepo.delete(user); // 객체 삭제 -> jpa : record 삭제로 적용
 		model.addAttribute("name", user.getName());
+		return "disjoin";
+	}	
+	@GetMapping("/disjoin")
+	public String disjoinForm(Model model) {		
 		return "disjoin";
 	}	
 }

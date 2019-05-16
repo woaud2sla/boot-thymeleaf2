@@ -31,11 +31,12 @@
 		      <td><span th:text="${company}"></span></td>  
 		      <td>
 		      <a href="#">수정</a>
-		      <form th:action="@{/users/{id}(id=${id})}" method="post">
-		      	  <!--  /users/3 vs. /users/?id=3 
-                  <input type="hidden" name="id" th:value="${id}" />
-                  -->
-                  <input type="submit" value="삭제" class="btn btn-danger" />
+		      <form class="form-horizontal" id="delform">
+		      	   <input type="hidden" class="form-control" 
+		      	   id="id" name="id" th:value="${id}"/>
+		      	  <button type="submit" id="bth-delete"
+                            class="btn btn-primary btn-lg">등록
+                  </button>
               </form>
 		      </td>
 		    </tr>

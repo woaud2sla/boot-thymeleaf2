@@ -4,8 +4,31 @@ $(document).ready(function () {
         event.preventDefault();
         fire_ajax_submit();
     });
+    
+    $("#delform").submit(function (event) {
+        event.preventDefault();
+        delete_ajax_submit();
+    });
 
 });
+
+function delete_ajax_submit() {    
+	var url_id = "/users/" + $('#id').val();
+    console.log(url_id);
+    $.ajax({
+        type: "DELETE",        
+        url: url_id,
+        dataType: 'text', // json -> text
+        success: function (result) {
+        	console.log("SUCCESS : ", result);
+        	window.location.href = "/disjoin";
+        },
+        error: function (e) {
+            console.log("ERROR : ", e);
+        }
+    });
+}
+
 
 function fire_ajax_submit() {
 
