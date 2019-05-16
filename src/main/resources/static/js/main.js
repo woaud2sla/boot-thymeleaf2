@@ -9,8 +9,40 @@ $(document).ready(function () {
         event.preventDefault();
         delete_ajax_submit();
     });
+    
+    $("#updateform").submit(function (event) {
+        event.preventDefault();
+        update_ajax_submit();
+    });
 
 });
+
+function update_ajax_submit() {
+	var data = {
+			"name" : $('#name').val(),
+			"company" : $('#company').val()
+	};
+	var user_id = "/users/" + $('#id').val();
+    var json = JSON.stringify(data);
+    console.log(json);
+    $.ajax({
+        type: "PUT",
+        contentType: "application/json",
+        url: user_id,
+        data: json,
+        dataType: 'text', // json -> text
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+        	console.log("SUCCESS : ", data);
+        	//window.location.href = "/users"; // Get 방식으로 접근
+        },
+        error: function (e) {
+            console.log("ERROR : ", e);
+        }
+    });
+
+}
 
 function delete_ajax_submit() {    
 	var url_id = "/users/" + $('#id').val();
