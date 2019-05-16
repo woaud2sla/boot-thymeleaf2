@@ -9,12 +9,9 @@
 <body>
 <th:block th:include="fragments/nav"></th:block>
 <div class="container" style="min-height: 500px">
-
     <div class="starter-template">
         <h1>사용자 목록 조회</h1>
-
         <div id="feedback"></div>
-
         <table class="table">
 		  <thead class="thead-dark">
 		    <tr>
@@ -25,9 +22,10 @@
 		  </thead>
 		  <tbody>
 		    <tr th:each="user : ${users}">
-				<td th:text="${user.id}">Id</td>
-				<td th:text="${user.name}">Id</td>
-				<td th:text="${user.company}">Id</td>
+				<td><a th:href="@{/users/{id}(id=${user.id})}">	
+				<span th:text="${user.id}"></span></a></td>
+				<td><span th:text="${user.name}"></span></td>
+				<td><span th:text="${user.company}"></span></td>
 			</tr>
 		  </tbody>
 		</table>
@@ -35,5 +33,4 @@
 </div>
 <th:block th:include="fragments/footer"></th:block>
 </body>
-
 </html>

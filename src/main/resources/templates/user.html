@@ -21,13 +21,23 @@
 		      <th scope="col">아이디</th>
 		      <th scope="col">이름</th>
 		      <th scope="col">회사</th>
+		      <th scope="col">변경</th>
 		    </tr>
 		  </thead>
 		  <tbody>
 		    <tr>
 		      <th scope="row"><span th:text="${id}"></span></th>
 		      <td><span th:text="${name}"></span></td>
-		      <td><span th:text="${company}"></span></td>      
+		      <td><span th:text="${company}"></span></td>  
+		      <td>
+		      <a href="#">수정</a>
+		      <form th:action="@{/users/{id}(id=${id})}" method="post">
+		      	  <!--  /users/3 vs. /users/?id=3 
+                  <input type="hidden" name="id" th:value="${id}" />
+                  -->
+                  <input type="submit" value="삭제" class="btn btn-danger" />
+              </form>
+		      </td>
 		    </tr>
 		    
 		  </tbody>
