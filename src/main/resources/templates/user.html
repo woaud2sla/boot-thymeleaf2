@@ -4,7 +4,9 @@
 <head>
     <title>사용자 정보 조회</title>
     <th:block th:include="fragments/header"></th:block>
+    <!-- 웹 브라우저에 내장된 html 인터프리터에게 무시 
  	<script type="text/javascript" src="/js/main.js"></script>
+ 	 -->
 </head>
 <body>
 <th:block th:include="fragments/nav"></th:block>
@@ -26,32 +28,20 @@
 		    </tr>
 		  </thead>
 		  <tbody>
-		    <tr>
-		      <form class="form-horizontal" id="updateform">
-		      <th scope="row"><span th:text="${id}"></span>
-		      <input type="hidden" class="form-control" 
-		      	   id="id" name="id" th:value="${id}"/></th>
-		      <td><input type="text" class="form-control" 
-		      	   id="name" name="name" th:value="${name}"/></span></td>
-		      <td><input type="text" class="form-control" 
-		      	   id="company" name="company" th:value="${company}"/></td>  
-		      <td>
-		      	<button type="submit" id="bth-update"
-                            class="btn btn-primary btn-lg">수정
-                </button>
-              </td>
-              </form>
-              <td>
-		      <form class="form-horizontal" id="delform">
-		      	   <input type="hidden" class="form-control" 
-		      	   id="id" name="id" th:value="${id}"/>
-		      	  <button type="submit" id="bth-delete"
-                            class="btn btn-primary btn-lg">삭제
-                  </button>
-              </form>
-		      </td>
-		    </tr>
-		    
+		    <tr> 
+		  		<form th:action="@{'/users/{id}'(id=${id})}" th:method="put" th:object="${user}">	
+				<th scope="row"><span th:text="${id}"></span></th>
+				<td><input type="text" name="name" th:field="*{name}" /></td>
+				<td><input type="text" name="company" th:field="*{company}" /></td>
+				<td><button type="submit" id="updateButton">update</button></td>
+				</form>
+				<td>
+				<form th:action="@{'/users/{id}'(id=${id})}" th:method="delete">
+					<input type="hidden" name="id" th:value="${id}"/>
+					<button type="submit" id="deleteButton">delete</button>
+				</form>
+				</td>
+			</tr>
 		  </tbody>
 		</table>
 

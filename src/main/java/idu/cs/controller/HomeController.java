@@ -43,9 +43,7 @@ public class HomeController {
 		User user = userRepo.findById(userId)
 				.orElseThrow(() -> 
 				new ResourceNotFoundException("not found " + userId ));
-		model.addAttribute("id", "" + userId);
-		model.addAttribute("name", user.getName());
-		model.addAttribute("company", user.getCompany());
+		model.addAttribute("user", user);
 		return "user";
 	}	
 	@GetMapping("/regform")
@@ -53,14 +51,14 @@ public class HomeController {
 		return "regform";
 	}	
 	@PostMapping("/users")
-	public String createUser(@Valid @RequestBody User user, Model model) {
+	public String createUser(@Valid User user, Model model) {
 		userRepo.save(user);
 		model.addAttribute("users", userRepo.findAll());
 		return "redirect:/users";
 	}
 	@PutMapping("/users/{id}") 
 	//@RequestMapping(value=""/users/{id}" method=RequestMethod.UPDATE)
-	public ResponseEntity<User> updateUserById(@PathVariable(value = "id") Long userId, @Valid @RequestBody User userDetails, Model model) throws ResourceNotFoundException {
+	public String updateUserById(@PathVariable(value = "id") Long userId, @Valid User userDetails, Model model) throws ResourceNotFoundException {
 		// userDetails 폼을 통해 전송된 객체, user는 id로 jpa를 통해서 가져온 객체
 		User user = userRepo.findById(userId)//userDetails.getId())
 				.orElseThrow(() -> 
@@ -68,7 +66,9 @@ public class HomeController {
 		user.setName(userDetails.getName());
 		user.setCompany(userDetails.getCompany());
 		User userUpdate = userRepo.save(user); // 객체 삭제 -> jpa : record 삭제로 적용
-		return ResponseEntity.ok(userUpdate);
+		//model.addAttribute("user", userUpdate);
+		return "redirect:/users"; // 업데이트가 성공하면 users 자원을 get 방식으로 접근하되 model에 user 어트리뷰트를 전달한다.
+		//return ResponseEntity.ok(userUpdate);
 	}
 	@DeleteMapping("/users/{id}") 
 	//@RequestMapping(value=""/users/{id}" method=RequestMethod.DELETE)
@@ -79,10 +79,6 @@ public class HomeController {
 				new ResourceNotFoundException("not found " + userId ));
 		userRepo.delete(user); // 객체 삭제 -> jpa : record 삭제로 적용
 		model.addAttribute("name", user.getName());
-		return "disjoin";
-	}	
-	@GetMapping("/disjoin")
-	public String disjoinForm(Model model) {		
 		return "disjoin";
 	}	
 }
