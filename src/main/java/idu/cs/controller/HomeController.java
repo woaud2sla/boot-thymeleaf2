@@ -39,7 +39,7 @@ public class HomeController {
 		model.addAttribute("users", userRepo.findAll());
 		return "userlist";
 	}	
-	@GetMapping("/users/byname") // byname?name=***, *** 값이 name 변수
+	@GetMapping("/users/name") // byname?name=***, *** 값이 name 변수
 	public String getUsersByName(@Param(value = "name") String name, Model model) {
 		List<User> users = userRepo.findByName(name);
 		model.addAttribute("users", users);
