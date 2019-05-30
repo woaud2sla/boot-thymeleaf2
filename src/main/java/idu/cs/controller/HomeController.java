@@ -3,6 +3,7 @@ package idu.cs.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -21,24 +22,41 @@ import idu.cs.exception.ResourceNotFoundException;
 import idu.cs.repository.UserRepository;
 
 @Controller
+//애노테이션 : 컴파일러에게 설정 내용이나 상태를 알려주는 목적, 적용범위가 클래스 내부로 한정
 public class HomeController {
 	@Autowired UserRepository userRepo; // Dependency Injection
 	
-	@GetMapping("/test")
-	public String home(Model model) {
-		model.addAttribute("test", "인덕 컴소");
-		model.addAttribute("egy", "유응구");
-		return "index";
-	}
 	@GetMapping("/")
 	public String loadWelcome(Model model) {
 		return "index";
 	}		
-	@GetMapping("/login")
-	public String loginUser(Model model) {
-		
+	@GetMapping("/login-form")
+	public String loginForm() {		
 		return "login";
 	}
+	@PostMapping("/login") 
+	// 실제로 로그인 처리, user : 입력한 내용에 대한 객체, 
+	// sessionUser : 리파지터리로부터 가져온 내용의 객체
+	public String loginUser(@Valid User user, HttpSession session) {		
+		System.out.println("login process : ");
+		User sessionUser = userRepo.findByUserId(user.getUserId());
+		if(sessionUser == null) {
+			System.out.println("id error : ");
+			return "redirect:/login-form";
+		}
+		if(!sessionUser.getUserPw().equals(user.getUserPw())) {
+			System.out.println("pw error : ");
+			return "redirect:/login-form";
+		}
+		session.setAttribute("user", sessionUser);
+		return "redirect:/";
+	}
+	@GetMapping("/logout")
+	public String logoutUser(HttpSession session) {
+		//session.invalidate();
+		session.removeAttribute("user");
+		return "redirect:/";
+	}	
 	@GetMapping("/users")
 	public String getAllUser(Model model) {
 		model.addAttribute("users", userRepo.findAll());
@@ -65,9 +83,9 @@ public class HomeController {
 		model.addAttribute("user", user);
 		return "user";
 	}	
-	@GetMapping("/regform")
+	@GetMapping("/register-form")
 	public String loadRegForm(Model model) {		
-		return "regform";
+		return "register";
 	}	
 	@PostMapping("/users")
 	public String createUser(@Valid User user, Model model) {
