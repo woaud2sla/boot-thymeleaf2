@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import idu.cs.domain.UserEntity;
+import idu.cs.entity.UserEntity;
 
 public interface UserRepository 
 	extends JpaRepository<UserEntity, Long> {
